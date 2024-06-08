@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 666621086622805654}
   - component: {fileID: 7640864776507255131}
   - component: {fileID: 8596003909657755426}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bread
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,8 @@ GameObject:
   - component: {fileID: 9148849506675513852}
   - component: {fileID: 3077859263936531032}
   - component: {fileID: 4094904057265590868}
-  m_Layer: 0
+  - component: {fileID: -4338765703706408487}
+  m_Layer: 7
   m_Name: ItemBread
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,3 +166,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.17024663, y: 0.15413567, z: 0.1378195}
   m_Center: {x: 0, y: 0.012869719, z: 0.00000673905}
+--- !u!114 &-4338765703706408487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5784272752374094230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b82c4b83f8f8fd4c835f3b424175a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c8afa50bf37ff844c8131066b1815306, type: 2}

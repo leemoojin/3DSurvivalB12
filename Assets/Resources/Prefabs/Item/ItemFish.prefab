@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 4321217862718852406}
   - component: {fileID: 3968413070596570660}
   - component: {fileID: 8721639273719585055}
-  m_Layer: 0
+  - component: {fileID: 3841334495751837983}
+  m_Layer: 7
   m_Name: ItemFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,6 +83,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3841334495751837983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2264782456450511342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b82c4b83f8f8fd4c835f3b424175a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 8831fda88f5bc5c45bad337dea93b208, type: 2}
 --- !u!1 &8287518832608408546
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +108,7 @@ GameObject:
   - component: {fileID: 2969706231647376946}
   - component: {fileID: 7709841868827547743}
   - component: {fileID: 6119683096963960179}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}

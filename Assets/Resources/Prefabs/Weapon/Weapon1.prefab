@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8556282107029078327}
   - component: {fileID: 5995581254295924769}
   - component: {fileID: 170506094581828966}
-  m_Layer: 0
+  - component: {fileID: -2188880292064825941}
+  m_Layer: 8
   m_Name: Weapon1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,6 +105,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-2188880292064825941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804989756634250976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b82c4b83f8f8fd4c835f3b424175a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: cea93127c2daa184a8581035d967d007, type: 2}
 --- !u!1 &5223824218643410149
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +129,7 @@ GameObject:
   - component: {fileID: 5039595563465844051}
   - component: {fileID: 8234578997934995153}
   - component: {fileID: 761435939537075023}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: dagger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

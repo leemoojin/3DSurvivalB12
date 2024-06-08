@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2182790327678342684}
   - component: {fileID: 507299027614186020}
   - component: {fileID: 6303885917937125330}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: dagger3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,8 @@ GameObject:
   - component: {fileID: 2345968736787323940}
   - component: {fileID: 6552185887918236548}
   - component: {fileID: 5447897385104188645}
-  m_Layer: 0
+  - component: {fileID: -3810314985740933415}
+  m_Layer: 8
   m_Name: Weapon3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,3 +167,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.30110228, y: 1.0189581, z: 0.097505696}
   m_Center: {x: -0.00025385618, y: -0.3366295, z: -0.00047877803}
+--- !u!114 &-3810314985740933415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5682942771034323128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b82c4b83f8f8fd4c835f3b424175a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}

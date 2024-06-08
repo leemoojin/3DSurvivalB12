@@ -32,7 +32,7 @@ public class ItemData : ScriptableObject
     public string description;
     public ItemType type;
     public Sprite icon;
-    public GameObject deopPrefabs;
+    public GameObject dropPrefabs;
 
     [Header("Stacking")]
     public bool canStack;
@@ -40,12 +40,7 @@ public class ItemData : ScriptableObject
 
     [Header("Consumable")]
     public ItemDataConsumable[] consumables;
-}
 
-[CreateAssetMenu(fileName = "Item", menuName = "New Equip")]
-
-public class EquipData : ItemData
-{
     [Header("Equip")]
     public GameObject equipPrefabs;
 }

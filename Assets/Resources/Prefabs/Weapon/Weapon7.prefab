@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8890472225364166528}
   - component: {fileID: 399472755568619249}
   - component: {fileID: 4352272112593715878}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sword7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,8 @@ GameObject:
   - component: {fileID: 8926125228584433984}
   - component: {fileID: 5708794759742610889}
   - component: {fileID: 7095022873092573121}
-  m_Layer: 0
+  - component: {fileID: -7359385944383262154}
+  m_Layer: 8
   m_Name: Weapon7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,3 +168,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3478136, y: 1.385561, z: 0.082946226}
   m_Center: {x: 0.0040302277, y: -0.37223127, z: -0.00000022351742}
+--- !u!114 &-7359385944383262154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7731927431050406731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b82c4b83f8f8fd4c835f3b424175a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}

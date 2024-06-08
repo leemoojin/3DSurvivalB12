@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eabe0edb71e7e1d4ca830ae92f9d515c, type: 3}
   m_Name: Fish
   m_EditorClassIdentifier: 
-  displayName: "\uC0DD\uC120"
-  description: "\uAC13 \uC7A1\uC544\uC62C\uB9B0 \uC2F1\uC2F1\uD55C \uC0DD\uC120!"
+  displayName: Fish
+  description: Fresh
   type: 1
-  icon: {fileID: 0}
-  deopPrefabs: {fileID: 2264782456450511342, guid: 59bb66cabcdff35498cb666b012cda19, type: 3}
-  canStack: 0
+  icon: {fileID: 7482667652216324306, guid: bbf42c2d13751984e8dc5a5773219698, type: 3}
+  dropPrefabs: {fileID: 2264782456450511342, guid: 59bb66cabcdff35498cb666b012cda19, type: 3}
+  canStack: 1
   maxStackAmount: 9
   consumables:
   - type: 1

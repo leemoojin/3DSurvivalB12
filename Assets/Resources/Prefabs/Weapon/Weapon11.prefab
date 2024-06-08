@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5619067096341997131}
   - component: {fileID: 2712259939193059378}
   - component: {fileID: 8935598913073610923}
-  m_Layer: 0
+  - component: {fileID: 4092345512399046701}
+  m_Layer: 8
   m_Name: Weapon11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,6 +83,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.44548523, y: 0.18781027, z: 0.078036}
   m_Center: {x: -0.051573925, y: -0.0019280389, z: 0}
+--- !u!114 &4092345512399046701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517387902046470508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b82c4b83f8f8fd4c835f3b424175a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}
 --- !u!1 &7464578642745505809
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +107,7 @@ GameObject:
   - component: {fileID: 1071776973760329170}
   - component: {fileID: 8949965053186737899}
   - component: {fileID: 8127877600384335283}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
