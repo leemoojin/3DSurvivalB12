@@ -2439,7 +2439,7 @@ MonoBehaviour:
   maxCheckDistance: 5
   layerMask:
     serializedVersion: 2
-    m_Bits: 896
+    m_Bits: 384
   curInteractGameObject: {fileID: 0}
   promptText: {fileID: 41997754}
 --- !u!1 &912824072
@@ -5809,11 +5809,11 @@ MonoBehaviour:
   - craftName: FIRE
     go_prefab: {fileID: 1540724737074142003, guid: 8800ec8b55fc95c44b0f59a60709f08d, type: 3}
     go_PreviewPrefab: {fileID: 1540724737074142003, guid: 8800ec8b55fc95c44b0f59a60709f08d, type: 3}
-  tf_Player: {fileID: 910583007}
+  tf_Player: {fileID: 1942500952}
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
-  range: 0
+    m_Bits: 1
+  range: 10
 --- !u!224 &1979225495 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 437191771320879733, guid: b7c902993bafb60449aec0c3bcafbffc, type: 3}
