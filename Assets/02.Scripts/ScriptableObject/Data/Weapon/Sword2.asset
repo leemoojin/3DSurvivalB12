@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eabe0edb71e7e1d4ca830ae92f9d515c, type: 3}
   m_Name: Sword2
   m_EditorClassIdentifier: 
-  displayName: sword1
+  displayName: sword2
   description: not good
   type: 0
   icon: {fileID: 7482667652216324306, guid: bbf42c2d13751984e8dc5a5773219698, type: 3}
-  dropPrefabs: {fileID: 804989756634250976, guid: 0dcc92ab0a7181744a52f51023df6e46, type: 3}
+  dropPrefabs: {fileID: 4629223798359293394, guid: 7dd3e126b2da0e04cb3d2d9a0cb16142, type: 3}
   canStack: 0
   maxStackAmount: 0
   consumables: []
