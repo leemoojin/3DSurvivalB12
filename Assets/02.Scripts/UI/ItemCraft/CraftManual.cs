@@ -53,13 +53,12 @@ public class CraftManual : MonoBehaviour
 
     void Update()
     {
-        /*
         if (isPreviewActivated)
             PreviewPositionUpdate();
 
         if (Input.GetButtonDown("Fire1"))
             Build();
-        */
+
         if (Input.GetKeyDown(KeyCode.Escape))
             Cancel();
     }
@@ -78,10 +77,9 @@ public class CraftManual : MonoBehaviour
             }
         }
     }
-/*
     private void Build()
     {
-        if (isPreviewActivated && go_Preview.GetComponent<PreviewObject>().isBuildable())
+        if (isPreviewActivated )
         {
             Instantiate(go_Prefab, hitInfo.point, Quaternion.identity);
             Destroy(go_Preview);
@@ -91,7 +89,7 @@ public class CraftManual : MonoBehaviour
             go_Prefab = null;
         }
     }
-*/
+
     private void Window()
     {
         if (!isActivated)
