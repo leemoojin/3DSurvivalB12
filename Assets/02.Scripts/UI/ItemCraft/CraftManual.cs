@@ -43,18 +43,15 @@ public class CraftManual : MonoBehaviour
         }
     }
 
-    public void SlotClick(int _slotNumber)
-    {
-        go_Preview = Instantiate(craft_fire[_slotNumber].go_PreviewPrefab, tf_Player.position + tf_Player.forward, Quaternion.identity);
-        go_Prefab = craft_fire[_slotNumber].go_prefab;
-        isPreviewActivated = true;
-        go_BaseUI.SetActive(false);
-    }
-
     void Update()
     {
+        Debug.Log("Update method called"); // Update 메서드 호출 확인
+
         if (isPreviewActivated)
+        {
+            Debug.Log("Preview is activated"); // 미리보기가 활성화된 상태 확인
             PreviewPositionUpdate();
+        }
 
         if (Input.GetButtonDown("Fire1"))
             Build();
@@ -63,8 +60,19 @@ public class CraftManual : MonoBehaviour
             Cancel();
     }
 
+    public void SlotClick(int _slotNumber)
+    {
+        // 메인 카메라의 위치를 사용하여 미리보기 프리팹 생성
+        go_Preview = Instantiate(craft_fire[_slotNumber].go_PreviewPrefab, Camera.main.transform.position, Quaternion.identity);
+        go_Prefab = craft_fire[_slotNumber].go_prefab;
+        isPreviewActivated = true;
+        go_BaseUI.SetActive(false);
+    }
+
     private void PreviewPositionUpdate()
     {
+        Debug.Log("PreviewPositionUpdate called"); // PreviewPositionUpdate 메서드 호출 확인
+
         if (Physics.Raycast(tf_Player.position, tf_Player.forward, out hitInfo, range, layerMask))
         {
             if (hitInfo.transform != null)
@@ -72,15 +80,26 @@ public class CraftManual : MonoBehaviour
                 Vector3 _location = hitInfo.point;
                 go_Preview.transform.position = _location;
 
-                Debug.Log(_location);
-                Debug.Log(go_Preview.transform.position);
+                Debug.Log("Hit location: " + _location); // 레이캐스트 히트 위치 확인
+                Debug.Log("Preview position: " + go_Preview.transform.position); // 미리보기 프리팹 위치 확인
+            }
+            else
+            {
+                Debug.Log("Raycast hit nothing"); // 레이캐스트가 아무것도 맞추지 못함
             }
         }
+        else
+        {
+            Debug.Log("Raycast did not hit"); // 레이캐스트가 아무것도 맞추지 못함
+        }
     }
+
+
     private void Build()
     {
-        if (isPreviewActivated )
+        if (isPreviewActivated)
         {
+            // 실제 프리팹을 생성하고 미리보기 프리팹을 제거
             Instantiate(go_Prefab, hitInfo.point, Quaternion.identity);
             Destroy(go_Preview);
             isActivated = false;
@@ -89,6 +108,7 @@ public class CraftManual : MonoBehaviour
             go_Prefab = null;
         }
     }
+
 
     private void Window()
     {
