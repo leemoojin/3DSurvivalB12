@@ -1,27 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[System.Serializable]
-public class CraftingMaterial
-{
-    public string itemName; // 아이템 이름
-    public int quantity;    // 필요한 수량
-}
-
 public class Making : MonoBehaviour
 {
     public GameObject craftingCanvas; // 제작 캔버스
-    public ItemData craftedItem;      // 제작할 아이템 데이터
-    public ItemData[] requiredMaterials; // 필요한 재료 아이템 데이터 배열
+    public CraftingSlot[] slots;      // 제작 슬롯 배열
 
     private PlayerController playerController; // 플레이어 컨트롤러
-    private UIInventory playerInventory; // 플레이어 인벤토리
+    private UIInventory playerInventory;       // 플레이어 인벤토리
+
     private void Start()
     {
         craftingCanvas.SetActive(false); // 시작 시 캔버스 비활성화
         playerController = FindObjectOfType<PlayerController>(); // 플레이어 컨트롤러 찾기
-
-        playerInventory = FindObjectOfType<UIInventory>();         // 플레이어 인벤토리 찾기
+        playerInventory = FindObjectOfType<UIInventory>(); // 플레이어 인벤토리 찾기
     }
 
     private void Update()
@@ -58,15 +50,15 @@ public class Making : MonoBehaviour
     }
 
     // 제작 버튼 클릭 이벤트 핸들러
-    public void OnCraftButtonClicked()
+    public void OnCraftButtonClicked(CraftingRecipe recipe)
     {
         // 필요한 재료가 모두 있는지 확인
-        bool hasAllMaterials = CheckMaterials();
+        bool hasAllMaterials = CheckMaterials(recipe);
 
         if (hasAllMaterials)
         {
             // 제작 가능한 경우, 제작을 완료하고 인벤토리에 아이템 추가
-            CraftItem();
+            CraftItem(recipe);
         }
         else
         {
@@ -76,12 +68,12 @@ public class Making : MonoBehaviour
     }
 
     // 필요한 재료가 모두 있는지 확인하는 함수
-    bool CheckMaterials()
+    bool CheckMaterials(CraftingRecipe recipe)
     {
         // 플레이어 인벤토리에서 필요한 재료 아이템의 수량을 확인하고, 부족한 경우 false를 반환
-        foreach (ItemData requiredItem in requiredMaterials)
+        foreach (var requiredItem in recipe.requiredMaterials)
         {
-            if (!playerInventory.HasItem(requiredItem, 1))
+            if (!playerInventory.HasItem(requiredItem.item, requiredItem.quantity))
             {
                 return false;
             }
@@ -90,20 +82,26 @@ public class Making : MonoBehaviour
     }
 
     // 아이템을 제작하는 함수
-    void CraftItem()
+    void CraftItem(CraftingRecipe recipe)
     {
-        // 필요한 재료를 플레이어 인벤토리에서 제거
-        foreach (ItemData requiredItem in requiredMaterials)
+        // 재료를 인벤토리에서 제거
+        foreach (var requiredItem in recipe.requiredMaterials)
         {
-            playerInventory.RemoveItem(requiredItem, 1);
+            playerInventory.RemoveItem(requiredItem.item, requiredItem.quantity);
         }
 
         // 제작된 아이템을 인벤토리에 추가
-        CharacterManager.Instance.Player.itemData = craftedItem; // 제작된 아이템 데이터를 설정
-        playerInventory.AddItem(); // 인수 없이 호출
-
-        // 제작 캔버스를 닫음
-        ToggleCraftingCanvas();
+        // 아이템 데이터 대신에 아이템의 인덱스를 전달
+        for (int i = 0; i < playerInventory.slots.Length; i++)
+        {
+            // 슬롯이 비어있는 경우 해당 슬롯에 아이템을 추가
+            if (playerInventory.slots[i].item == null)
+            {
+                playerInventory.slots[i].item = recipe.craftedItem;
+                playerInventory.slots[i].quantity = 1;
+                playerInventory.UpdateUI();
+                return;
+            }
+        }
     }
-
 }
