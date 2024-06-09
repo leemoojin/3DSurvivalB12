@@ -45,11 +45,8 @@ public class CraftManual : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Update method called"); // Update 메서드 호출 확인
-
         if (isPreviewActivated)
         {
-            Debug.Log("Preview is activated"); // 미리보기가 활성화된 상태 확인
             PreviewPositionUpdate();
         }
 
