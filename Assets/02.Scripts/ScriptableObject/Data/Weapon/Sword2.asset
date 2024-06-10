@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: sword2
   description: not good
   type: 0
-  icon: {fileID: 7482667652216324306, guid: bbf42c2d13751984e8dc5a5773219698, type: 3}
+  icon: {fileID: 21300000, guid: eabb77fbf04493f49b097fec95d30c4e, type: 3}
   dropPrefabs: {fileID: 4629223798359293394, guid: 7dd3e126b2da0e04cb3d2d9a0cb16142, type: 3}
   canStack: 0
   maxStackAmount: 0

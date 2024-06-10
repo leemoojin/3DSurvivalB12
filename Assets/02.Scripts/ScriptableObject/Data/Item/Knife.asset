@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Knife
   description: Dog knife
   type: 2
-  icon: {fileID: 7482667652216324306, guid: bbf42c2d13751984e8dc5a5773219698, type: 3}
+  icon: {fileID: 21300000, guid: ccaa2d847fd93e44994273dfdf980e82, type: 3}
   dropPrefabs: {fileID: 1617626401596259384, guid: a9a614257dba3e74d8838be042279154, type: 3}
   canStack: 1
   maxStackAmount: 9
