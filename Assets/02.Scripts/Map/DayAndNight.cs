@@ -36,6 +36,8 @@ public class DayAndNight : MonoBehaviour
     {
         CurrentTime = (CurrentTime + _timeRate * Time.deltaTime) % 1.0f;
 
+        IsDay = CurrentTime is >= 0.3f and <= 0.7f;
+
         UpdateLighting(Sun, SunColor, SunIntensity);
         UpdateLighting(Moon, MoonColor, MoonIntensity);
 
@@ -55,11 +57,9 @@ public class DayAndNight : MonoBehaviour
         {
             case 0 when go.activeInHierarchy:
                 go.SetActive(false);
-                IsDay = false;
                 break;
             case > 0 when !go.activeInHierarchy:
                 go.SetActive(true);
-                IsDay = true;
                 break;
         }
     }
