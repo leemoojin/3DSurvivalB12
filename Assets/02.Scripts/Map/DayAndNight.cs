@@ -23,10 +23,13 @@ public class DayAndNight : MonoBehaviour
     public AnimationCurve LightingIntensityMultiplier;
     public AnimationCurve ReflectIntensityMultiplier;
 
+    public bool IsDay;
+    
     private void Start()
     {
         _timeRate = 1.0f / FullDayLength;
         CurrentTime = StartTime;
+        IsDay = true;
     }
 
     private void Update()
@@ -52,9 +55,11 @@ public class DayAndNight : MonoBehaviour
         {
             case 0 when go.activeInHierarchy:
                 go.SetActive(false);
+                IsDay = false;
                 break;
             case > 0 when !go.activeInHierarchy:
                 go.SetActive(true);
+                IsDay = true;
                 break;
         }
     }

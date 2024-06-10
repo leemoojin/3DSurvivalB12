@@ -5,32 +5,32 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;                 // ÀÌµ¿ ¼Óµµ
-    private float originalMoveSpeed;        // ¿ø·¡ÀÇ ÀÌµ¿ ¼Óµµ ÀúÀå
-    private Vector2 curMovementInput;       // ÇöÀç ÀÌµ¿ ÀÔ·Â
-    public float jumptForce;                // Á¡ÇÁ Èû
-    public LayerMask groundLayerMask;       // ¹Ù´Ú ·¹ÀÌ¾î ¸¶½ºÅ©
+    public float moveSpeed;                 // ï¿½Ìµï¿½ ï¿½Óµï¿½
+    private float originalMoveSpeed;        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
+    private Vector2 curMovementInput;       // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ô·ï¿½
+    public float jumptForce;                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    public LayerMask groundLayerMask;       // ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Å©
 
     [Header("Look")]
-    public Transform cameraContainer;       // Ä«¸Þ¶ó ÄÁÅ×ÀÌ³Ê
-    public float minXLook;                  // ÃÖ¼Ò Ä«¸Þ¶ó »óÇÏ °¢µµ
-    public float maxXLook;                  // ÃÖ´ë Ä«¸Þ¶ó »óÇÏ °¢µµ
-    private float camCurXRot;               // ÇöÀç Ä«¸Þ¶ó X È¸Àü°ª
-    public float lookSensitivity;           // ½Ã¼± °¨µµ
+    public Transform cameraContainer;       // Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½
+    public float minXLook;                  // ï¿½Ö¼ï¿½ Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float maxXLook;                  // ï¿½Ö´ï¿½ Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float camCurXRot;               // ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ X È¸ï¿½ï¿½ï¿½ï¿½
+    public float lookSensitivity;           // ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    private Vector2 mouseDelta;             // ¸¶¿ì½º ÀÔ·Â °ª
+    private Vector2 mouseDelta;             // ï¿½ï¿½ï¿½ì½º ï¿½Ô·ï¿½ ï¿½ï¿½
 
     [HideInInspector]
-    public bool canLook = true;             // ½Ã¼± Á¦¾î °¡´É ¿©ºÎ
+    public bool canLook = true;             // ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    public Action inventory;                // ÀÎº¥Åä¸® ¾×¼Ç
+    public Action inventory;                // ï¿½Îºï¿½ï¿½ä¸® ï¿½×¼ï¿½
     public Action craft;
-    private Rigidbody rigidbody;            // ¸®Áöµå¹Ùµð
+    private Rigidbody rigidbody;            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ùµï¿½
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        originalMoveSpeed = moveSpeed;      // ¿ø·¡ÀÇ ÀÌµ¿ ¼Óµµ ÀúÀå
+        originalMoveSpeed = moveSpeed;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     void Start()
@@ -40,31 +40,31 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move(); // ÀÌµ¿ ÇÔ¼ö È£Ãâ
+        Move(); // ï¿½Ìµï¿½ ï¿½Ô¼ï¿½ È£ï¿½ï¿½
     }
 
     private void LateUpdate()
     {
         if (canLook)
         {
-            CameraLook(); // ½Ã¼± Á¦¾î ÇÔ¼ö È£Ãâ
+            CameraLook(); // ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ È£ï¿½ï¿½
         }
     }
 
     public void OnLookInput(InputAction.CallbackContext context)
     {
-        mouseDelta = context.ReadValue<Vector2>(); // ¸¶¿ì½º ÀÔ·Â°ª °¡Á®¿À±â
+        mouseDelta = context.ReadValue<Vector2>(); // ï¿½ï¿½ï¿½ì½º ï¿½Ô·Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            curMovementInput = context.ReadValue<Vector2>(); // ÀÌµ¿ ÀÔ·Â°ª °¡Á®¿À±â
+            curMovementInput = context.ReadValue<Vector2>(); // ï¿½Ìµï¿½ ï¿½Ô·Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            curMovementInput = Vector2.zero; // ÀÌµ¿ ÀÔ·Â°ª ÃÊ±âÈ­
+            curMovementInput = Vector2.zero; // ï¿½Ìµï¿½ ï¿½Ô·Â°ï¿½ ï¿½Ê±ï¿½È­
         }
     }
 
@@ -72,31 +72,30 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
-            rigidbody.AddForce(Vector2.up * jumptForce, ForceMode.Impulse); // Á¡ÇÁ Èû Àû¿ë
+            rigidbody.AddForce(Vector2.up * jumptForce, ForceMode.Impulse); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
     private void Move()
     {
-        Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x; // ÀÌµ¿ ¹æÇâ °è»ê
-        dir *= moveSpeed; // ÀÌµ¿ ¼Óµµ Àû¿ë
+        Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x; // ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+        dir *= moveSpeed; // ï¿½Ìµï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
         dir.y = rigidbody.velocity.y;
-        Debug.Log("Á¡ÇÁ Áß"+curMovementInput);
-        rigidbody.velocity = dir; // ¸®Áöµå¹Ùµð¿¡ ¼Óµµ Àû¿ë
+        rigidbody.velocity = dir; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ùµï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     void CameraLook()
     {
-        camCurXRot += mouseDelta.y * lookSensitivity; // ¸¶¿ì½º Y ÀÔ·Â¿¡ µû¶ó Ä«¸Þ¶ó X È¸Àü°ª Á¶Àý
-        camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook); // ÃÖ¼Ò, ÃÖ´ë È¸Àü°ª »çÀÌ·Î Á¦ÇÑ
-        cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0); // Ä«¸Þ¶ó °¢µµ ¼³Á¤
+        camCurXRot += mouseDelta.y * lookSensitivity; // ï¿½ï¿½ï¿½ì½º Y ï¿½Ô·Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ X È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook); // ï¿½Ö¼ï¿½, ï¿½Ö´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½
+        cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0); // Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0); // ÇÃ·¹ÀÌ¾î È¸Àü°ª Àû¿ë
+        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0); // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     bool IsGrounded()
     {
-        // ÇÃ·¹ÀÌ¾î ÁÖº¯ÀÇ ³× ¹æÇâÀ¸·Î ·¹ÀÌÄ³½ºÆ®¸¦ ½÷¼­ ¹Ù´Ú¿¡ ´ê¾Ò´ÂÁö °Ë»ç
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Öºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´Ú¿ï¿½ ï¿½ï¿½Ò´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
         Ray[] rays = new Ray[4]
         {
             new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
@@ -118,26 +117,26 @@ public class PlayerController : MonoBehaviour
 
     public void ToggleCursor(bool toggle)
     {
-        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked; // Ä¿¼­ »óÅÂ ¼³Á¤
-        canLook = !toggle; // ½Ã¼± Á¦¾î °¡´É ¿©ºÎ ¾÷µ¥ÀÌÆ®
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked; // Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        canLook = !toggle; // ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     }
 
     public void SetSpeed(float newSpeed)
     {
-        moveSpeed = newSpeed; // ÀÌµ¿ ¼Óµµ ¼³Á¤
+        moveSpeed = newSpeed; // ï¿½Ìµï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public void ResetSpeed()
     {
-        moveSpeed = originalMoveSpeed; // ¿ø·¡ÀÇ ÀÌµ¿ ¼Óµµ·Î ¼³Á¤
+        moveSpeed = originalMoveSpeed; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public void OnInventoryButton(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.phase == InputActionPhase.Started)
         {
-            inventory?.Invoke(); // ÀÎº¥Åä¸® ¾×¼Ç È£Ãâ
-            ToggleCursor(); // Ä¿¼­ Åä±Û
+            inventory?.Invoke(); // ï¿½Îºï¿½ï¿½ä¸® ï¿½×¼ï¿½ È£ï¿½ï¿½
+            ToggleCursor(); // Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½
         }
     }
 
@@ -145,15 +144,15 @@ public class PlayerController : MonoBehaviour
     {
         if (callbackContext.phase == InputActionPhase.Started)
         {
-            craft?.Invoke(); // ÀÎº¥Åä¸® ¾×¼Ç È£Ãâ
-            ToggleCursor(); // Ä¿¼­ Åä±Û
+            craft?.Invoke(); // ï¿½Îºï¿½ï¿½ä¸® ï¿½×¼ï¿½ È£ï¿½ï¿½
+            ToggleCursor(); // Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½
         }
     }
 
     void ToggleCursor()
     {
-        bool toggle = Cursor.lockState == CursorLockMode.Locked; // Ä¿¼­ »óÅÂ È®ÀÎ
-        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked; // Ä¿¼­ »óÅÂ Åä±Û
-        canLook = !toggle; // ½Ã¼± Á¦¾î °¡´É ¿©ºÎ ¾÷µ¥ÀÌÆ®
+        bool toggle = Cursor.lockState == CursorLockMode.Locked; // Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked; // Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+        canLook = !toggle; // ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     }
 }

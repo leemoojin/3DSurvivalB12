@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using KeyType = System.String;
 
-
 /// <summary> 
 /// 오브젝트 풀 관리 싱글톤
 /// </summary>
@@ -101,7 +100,7 @@ public class PoolManager : SingletonDestroyable<PoolManager>
         }
 
         go.SetActive(true);
-        go.transform.SetParent(null);
+        go.transform.SetParent(transform);
 
         return go;
     }
