@@ -21,6 +21,7 @@ public class EnemyNav : MonoBehaviour
     private NavMeshAgent _agent;
     private Enemy _enemy;
     private SateMark _sateMark;
+    private EnemyAnimation _animationManager;
 
     private Coroutine _coroutine;
 
@@ -43,11 +44,15 @@ public class EnemyNav : MonoBehaviour
     public bool isChase = false;
 
 
+
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _enemy = GetComponent<Enemy>();
         _sateMark = GetComponent<SateMark>();
+        _animationManager = GetComponent<EnemyAnimation>();
+
+
     }
 
     // Start is called before the first frame update
@@ -85,6 +90,9 @@ public class EnemyNav : MonoBehaviour
         {
             aiState = AIState.Invade;
         }
+
+        
+
 
         SetState(aiState);
        
@@ -133,9 +141,19 @@ public class EnemyNav : MonoBehaviour
     {
         // 공격 범위 안에 있으면 공격
         Debug.Log("EnemyNav.cs - AttackingUpdate()");
+        Transform target = curViewCastInfo.hit.collider.gameObject.transform;
+        float toEnemy = Vector3.Distance(transform.position, target.position);
 
-        float toEnemy = Vector3.Distance(transform.position, curViewCastInfo.hit.collider.gameObject.transform.position);
 
+        if (!_animationManager.isAttackPlaying)
+        {
+            // 목표 방향 계산
+            Vector3 direction = target.position - transform.position;
+            // 목표 회전 계산
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 2f * Time.deltaTime);
+        }
+        
         // 공격범위를 벗어나면 추적
         if (_attackDistance < toEnemy)
         {

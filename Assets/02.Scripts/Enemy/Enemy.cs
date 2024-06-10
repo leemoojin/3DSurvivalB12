@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
     public float meshResolution;
 
     [Header("Combat")]
+    public GameObject weapon;
     public int damage;
     public float attackRate;
     public float attackDistance;
