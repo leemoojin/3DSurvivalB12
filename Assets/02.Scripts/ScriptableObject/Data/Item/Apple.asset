@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Apple
   m_EditorClassIdentifier: 
   displayName: Apple
-  description: Sweet
+  description: Good
   type: 1
-  icon: {fileID: 7482667652216324306, guid: bbf42c2d13751984e8dc5a5773219698, type: 3}
+  icon: {fileID: 21300000, guid: 9906998df9d4bc346bc31da300e9d6dc, type: 3}
   dropPrefabs: {fileID: 4110822284477792864, guid: 5cf2db68346c7c64784a1f4a11253e85, type: 3}
   canStack: 1
   maxStackAmount: 9

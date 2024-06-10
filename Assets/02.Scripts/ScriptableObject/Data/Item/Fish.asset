@@ -15,11 +15,11 @@ MonoBehaviour:
   displayName: Fish
   description: Fresh
   type: 1
-  icon: {fileID: 7482667652216324306, guid: bbf42c2d13751984e8dc5a5773219698, type: 3}
+  icon: {fileID: 21300000, guid: a8caa1d5f4f579e479ab1a3ba34452f5, type: 3}
   dropPrefabs: {fileID: 2264782456450511342, guid: 59bb66cabcdff35498cb666b012cda19, type: 3}
   canStack: 1
   maxStackAmount: 9
   consumables:
   - type: 1
-    value: 0
+    value: 20
   equipPrefabs: {fileID: 0}

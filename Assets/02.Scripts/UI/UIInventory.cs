@@ -68,16 +68,17 @@ public class UIInventory : MonoBehaviour
         }
     }
 
-    // 인벤토리가 열려 있는지 확인하는 메서드
-    public bool IsOpen()
-    {
-        return inventoryWindow.activeInHierarchy;
-    }
-
     // 아이템을 추가하는 메서드
     public void AddItem()
     {
         ItemData data = CharacterManager.Instance.Player.itemData;
+
+        // 아이템 데이터가 null인지 확인
+        if (data == null)
+        {
+            Debug.LogWarning("Item data is null. Cannot add item.");
+            return;
+        }
 
         // 스택 가능한 아이템인 경우
         if (data.canStack)
@@ -108,6 +109,7 @@ public class UIInventory : MonoBehaviour
         ThrowItem(data);
         CharacterManager.Instance.Player.itemData = null;
     }
+
 
     // 아이템을 던지는 메서드
     public void ThrowItem(ItemData data)
@@ -250,6 +252,42 @@ public class UIInventory : MonoBehaviour
     // 아이템이 있는지 확인하는 메서드
     public bool HasItem(ItemData item, int quantity)
     {
+        int itemCount = 0;
+
+        // 모든 슬롯을 순회하면서 해당 아이템의 수량을 확인
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == item)
+            {
+                itemCount += slots[i].quantity;
+            }
+
+            // 필요한 수량을 만족하면 true를 반환
+            if (itemCount >= quantity)
+            {
+                return true;
+            }
+        }
+
+        // 필요한 수량을 만족하지 못하면 false를 반환
         return false;
+    }
+
+
+    public void RemoveItem(ItemData item, int quantity)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == item)
+            {
+                slots[i].quantity -= quantity;
+                if (slots[i].quantity <= 0)
+                {
+                    slots[i].item = null;
+                    UpdateUI();
+                }
+                return;
+            }
+        }
     }
 }

@@ -1,85 +1,97 @@
-ï»¿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// °¢ ¾ÆÀÌÅÛ¿¡ ´ëÇÑ Á¤º¸¸¦ ´ã´Â Å¬·¡½º
 [System.Serializable]
 public class Craft
 {
-    public string craftName; // ì´ë¦„
-    public GameObject go_prefab; // ì‹¤ì œ ì„¤ì¹˜ ë  í”„ë¦¬íŒ¹
-    public GameObject go_PreviewPrefab; // ë¯¸ë¦¬ ë³´ê¸° í”„ë¦¬íŒ¹
+    public string craftName; // ¾ÆÀÌÅÛ ÀÌ¸§
+    public GameObject go_prefab; // ½ÇÁ¦ »ı¼ºµÉ ÇÁ¸®ÆÕ
+    public GameObject go_PreviewPrefab; // ¹Ì¸® º¸±â¿¡ »ç¿ëµÉ ÇÁ¸®ÆÕ
 }
 
+// Á¶ÇÕ ¸Ş´º¾óÀ» °ü¸®ÇÏ´Â Å¬·¡½º
 public class CraftManual : MonoBehaviour
 {
-    private bool isActivated = false;  // CraftManual UI í™œì„± ìƒíƒœ
-    private bool isPreviewActivated = false; // ë¯¸ë¦¬ ë³´ê¸° í™œì„±í™” ìƒíƒœ
+    private bool isActivated = false; // CraftManual UIÀÇ È°¼ºÈ­ »óÅÂ¸¦ ³ªÅ¸³¿
+    private bool isPreviewActivated = false; // ¹Ì¸® º¸±âÀÇ È°¼ºÈ­ »óÅÂ¸¦ ³ªÅ¸³¿
     private PlayerController controller;
 
     [SerializeField]
-    private GameObject go_BaseUI; // ê¸°ë³¸ ë² ì´ìŠ¤ UI
+    private GameObject go_BaseUI; // ±âº» º£ÀÌ½º UI
 
     [SerializeField]
-    private Craft[] craft_fire;  // ë¶ˆ íƒ­ì— ìˆëŠ” ìŠ¬ë¡¯ë“¤. 
+    private Craft[] craft_fire; // ºÒ ÅÇ¿¡ ÀÖ´Â ½½·ÔµéÀ» ³ªÅ¸³»´Â ¹è¿­
 
-    private GameObject go_Preview; // ë¯¸ë¦¬ ë³´ê¸° í”„ë¦¬íŒ¹ì„ ë‹´ì„ ë³€ìˆ˜
-    private GameObject go_Prefab; // ì‹¤ì œ ìƒì„±ë  í”„ë¦¬íŒ¹ì„ ë‹´ì„ ë³€ìˆ˜ 
+    private GameObject go_Preview; // ¹Ì¸® º¸±â ÇÁ¸®ÆÕÀ» ÀúÀåÇÒ º¯¼ö
+    private GameObject go_Prefab; // ½ÇÁ¦ »ı¼ºµÉ ÇÁ¸®ÆÕÀ» ÀúÀåÇÒ º¯¼ö 
 
     [SerializeField]
-    private Transform tf_Player;  // í”Œë ˆì´ì–´ ìœ„ì¹˜
+    private Transform tf_Player; // ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¸¦ ³ªÅ¸³¿
 
-    private RaycastHit hitInfo;
+    private RaycastHit hitInfo; // ·¹ÀÌÄ³½ºÆ®¸¦ ÅëÇØ ¾òÀº Á¤º¸¸¦ ÀúÀåÇÒ º¯¼ö
     [SerializeField]
-    private LayerMask layerMask;
+    private LayerMask layerMask; // ·¹ÀÌÄ³½ºÆ®¿¡¼­ Ãæµ¹ °Ë»çÇÒ ·¹ÀÌ¾î ¸¶½ºÅ©
     [SerializeField]
-    private float range;
+    private float range; // ·¹ÀÌÄ³½ºÆ®ÀÇ ÃÖ´ë °Å¸®
 
     private void Start()
     {
-        controller = FindObjectOfType<PlayerController>(); // PlayerController ì¸ìŠ¤í„´ìŠ¤ ì°¾ê¸°
+        controller = FindObjectOfType<PlayerController>(); // PlayerController ÀÎ½ºÅÏ½º¸¦ Ã£À½
         if (controller != null)
         {
-            controller.craft += Toggle; // PlayerControllerì˜ craft ì•¡ì…˜ì— Toggle ë©”ì„œë“œ ì—°ê²°
+            controller.craft += Toggle; // PlayerControllerÀÇ craft ÀÌº¥Æ®¿¡ Toggle ¸Ş¼­µå¸¦ ¿¬°á
         }
     }
 
+    // ½½·Ô Å¬¸¯ ½Ã È£ÃâµÇ´Â ¸Ş¼­µå
     public void SlotClick(int _slotNumber)
     {
-        go_Preview = Instantiate(craft_fire[_slotNumber].go_PreviewPrefab, tf_Player.position + tf_Player.forward, Quaternion.identity);
+        // UI¸¦ ´İÀ½
+        Window(false); // UI¸¦ ´İÀ½
+        // ¸ŞÀÎ Ä«¸Ş¶óÀÇ À§Ä¡¸¦ ±â¹İÀ¸·Î ¹Ì¸®º¸±â ÇÁ¸®ÆÕÀ» »ı¼ºÇÔ
+        go_Preview = Instantiate(craft_fire[_slotNumber].go_PreviewPrefab, Camera.main.transform.position, Quaternion.identity);
         go_Prefab = craft_fire[_slotNumber].go_prefab;
         isPreviewActivated = true;
-        go_BaseUI.SetActive(false);
     }
+
+
 
     void Update()
     {
         if (isPreviewActivated)
-            PreviewPositionUpdate();
+        {
+            PreviewPositionUpdate(); // ¹Ì¸®º¸±âÀÇ À§Ä¡¸¦ ¾÷µ¥ÀÌÆ®ÇÔ
+        }
 
         if (Input.GetButtonDown("Fire1"))
-            Build();
+        {
+            Build(); // ºôµå¸¦ ½ÇÇàÇÔ
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
-            Cancel();
+        {
+            Cancel(); // Ãë¼Ò¸¦ ½ÇÇàÇÔ
+        }
     }
 
+    // ¹Ì¸®º¸±âÀÇ À§Ä¡¸¦ ¾÷µ¥ÀÌÆ®ÇÏ´Â ¸Ş¼­µå
     private void PreviewPositionUpdate()
     {
+        // ÇÃ·¹ÀÌ¾îÀÇ ½Ã¾ß ¹æÇâÀ¸·Î ·¹ÀÌÄ³½ºÆ®¸¦ ¹ß»çÇÏ¿© ¹Ì¸®º¸±â ÇÁ¸®ÆÕÀÇ À§Ä¡¸¦ Á¶Á¤ÇÔ
         if (Physics.Raycast(tf_Player.position, tf_Player.forward, out hitInfo, range, layerMask))
         {
             if (hitInfo.transform != null)
             {
                 Vector3 _location = hitInfo.point;
                 go_Preview.transform.position = _location;
-
-                Debug.Log(_location);
-                Debug.Log(go_Preview.transform.position);
             }
         }
     }
+
+    // ºôµå¸¦ ½ÇÇàÇÏ´Â ¸Ş¼­µå
     private void Build()
     {
-        if (isPreviewActivated )
+        if (isPreviewActivated)
         {
             Instantiate(go_Prefab, hitInfo.point, Quaternion.identity);
             Destroy(go_Preview);
@@ -87,33 +99,54 @@ public class CraftManual : MonoBehaviour
             isPreviewActivated = false;
             go_Preview = null;
             go_Prefab = null;
+            // UI¸¦ ´Ù½Ã È°¼ºÈ­ÇÔ
+            Window(true);
         }
     }
 
-    private void Window()
+    // Ã¢À» ¿­°Å³ª ´İ´Â ¸Ş¼­µå
+    private void Window(bool toggle)
     {
-        if (!isActivated)
+        if (!toggle)
+        {
+            if (go_BaseUI.activeSelf) // UI°¡ È°¼ºÈ­µÇ¾î ÀÖÀ» ¶§¸¸ È­¸é °íÁ¤ ÇØÁ¦
+            {
+                controller.ToggleCursor(false);
+            }
+        }
+
+        if (isActivated)
+        {
             OpenWindow();
+        }
         else
+        {
             CloseWindow();
+        }
     }
 
+
+    // Ã¢À» ¿­±â À§ÇÑ ¸Ş¼­µå
     private void OpenWindow()
     {
         isActivated = true;
-        go_BaseUI.SetActive(true);
+        go_BaseUI.SetActive(true); // UI¸¦ È°¼ºÈ­ÇÔ
     }
 
+    // Ã¢À» ´İ±â À§ÇÑ ¸Ş¼­µå
     private void CloseWindow()
     {
         isActivated = false;
-        go_BaseUI.SetActive(false);
+        go_BaseUI.SetActive(false); // UI¸¦ ºñÈ°¼ºÈ­ÇÔ
     }
 
+    // Ãë¼Ò¸¦ ½ÇÇàÇÏ´Â ¸Ş¼­µå
     private void Cancel()
     {
         if (isPreviewActivated)
-            Destroy(go_Preview);
+        {
+            Destroy(go_Preview); // ¹Ì¸®º¸±â¸¦ Á¦°ÅÇÔ
+        }
 
         isActivated = false;
         isPreviewActivated = false;
@@ -121,18 +154,21 @@ public class CraftManual : MonoBehaviour
         go_Preview = null;
         go_Prefab = null;
 
-        go_BaseUI.SetActive(false);
+        go_BaseUI.SetActive(false); // UI¸¦ ºñ
     }
 
+    // UI¸¦ Åä±ÛÇÏ´Â ¸Ş¼­µå
     public void Toggle()
     {
+        Debug.Log("toggle open");
         if (go_BaseUI.activeInHierarchy)
         {
-            go_BaseUI.SetActive(false);
+            go_BaseUI.SetActive(false); // UI¸¦ ºñÈ°¼ºÈ­ÇÔ
         }
         else
         {
-            go_BaseUI.SetActive(true);
+            go_BaseUI.SetActive(true); // UI¸¦ È°¼ºÈ­ÇÔ
         }
     }
+
 }

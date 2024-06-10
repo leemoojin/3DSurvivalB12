@@ -15,11 +15,11 @@ MonoBehaviour:
   displayName: Bread
   description: Hot
   type: 1
-  icon: {fileID: 7482667652216324306, guid: bbf42c2d13751984e8dc5a5773219698, type: 3}
+  icon: {fileID: 21300000, guid: a871704b03570004b8f2d427d9866a7d, type: 3}
   dropPrefabs: {fileID: 5784272752374094230, guid: 5fd3663b9c31f5d4b82a284e394552dd, type: 3}
   canStack: 1
   maxStackAmount: 9
   consumables:
   - type: 0
-    value: 0
+    value: 20
   equipPrefabs: {fileID: 0}
