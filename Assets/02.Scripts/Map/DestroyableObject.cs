@@ -3,7 +3,7 @@ using UnityEngine;
 public class DestroyableObject : MonoBehaviour
 {
     [SerializeField]
-    private int Hp; // 바위의 체력. 0 이 되면 파괴됨
+    private int Hp; // 오브젝트의 체력. 0 이 되면 파괴됨
 
     [SerializeField]
     private int DestroyTime; // 파괴된 오브젝트의 파편들의 생명 (이 시간이 지나면 Destroy)
