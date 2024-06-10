@@ -5,6 +5,7 @@ public class Making : MonoBehaviour
 {
     public GameObject craftingCanvas; // 제작 캔버스
     public CraftingSlot[] slots;      // 제작 슬롯 배열
+    public UIInventory uiInventory;   // UIInventory 참조 추가
 
     private PlayerController playerController; // 플레이어 컨트롤러
     private UIInventory playerInventory;       // 플레이어 인벤토리
@@ -13,7 +14,7 @@ public class Making : MonoBehaviour
     {
         craftingCanvas.SetActive(false); // 시작 시 캔버스 비활성화
         playerController = FindObjectOfType<PlayerController>(); // 플레이어 컨트롤러 찾기
-        playerInventory = FindObjectOfType<UIInventory>(); // 플레이어 인벤토리 찾기
+        playerInventory = uiInventory; // UIInventory 참조 설정
     }
 
     private void Update()
