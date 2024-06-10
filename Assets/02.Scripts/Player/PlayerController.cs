@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x; // 이동 방향 계산
         dir *= moveSpeed; // 이동 속도 적용
         dir.y = rigidbody.velocity.y;
-
+        Debug.Log("점프 중"+curMovementInput);
         rigidbody.velocity = dir; // 리지드바디에 속도 적용
     }
 
