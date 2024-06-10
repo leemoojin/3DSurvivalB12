@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eabe0edb71e7e1d4ca830ae92f9d515c, type: 3}
   m_Name: Sword1
   m_EditorClassIdentifier: 
-  displayName: sword1
-  description: not good
+  displayName: sword
+  description: 100
   type: 0
-  icon: {fileID: 7482667652216324306, guid: bbf42c2d13751984e8dc5a5773219698, type: 3}
-  dropPrefabs: {fileID: 804989756634250976, guid: 0dcc92ab0a7181744a52f51023df6e46, type: 3}
+  icon: {fileID: 21300000, guid: 13be93834764fd645ba1ee53c6ae2fa4, type: 3}
+  dropPrefabs: {fileID: 7934910853155910141, guid: a3c3ac65e33d28f478c95ee2dc4eaeaf, type: 3}
   canStack: 0
   maxStackAmount: 0
   consumables: []
-  equipPrefabs: {fileID: 0}
+  equipPrefabs: {fileID: 7934910853155910141, guid: a3c3ac65e33d28f478c95ee2dc4eaeaf, type: 3}

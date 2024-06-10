@@ -2,34 +2,34 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-    private static CharacterManager _instance; // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º
-    public static CharacterManager Instance // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º¿¡ Á¢±ÙÇÏ±â À§ÇÑ ÇÁ·ÎÆÛÆ¼
+    private static CharacterManager _instance; // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½
+    public static CharacterManager Instance // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼
     {
         get
         {
             if (_instance == null)
             {
-                // ÀÎ½ºÅÏ½º°¡ ¾øÀ¸¸é »õ·Î »ý¼ºÇÏ¿© ¹ÝÈ¯
-                _instance = new GameObject("CharacerManager").AddComponent<CharacterManager>();
+                // ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½È¯
+                _instance = new GameObject("CharacterManager").AddComponent<CharacterManager>();
             }
             return _instance;
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î¸¦ À§ÇÑ ÇÁ·ÎÆÛÆ¼
+    // ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼
     public Player Player
     {
         get { return _player; }
         set { _player = value; }
     }
-    private Player _player; // ÇÃ·¹ÀÌ¾î °´Ã¼
+    private Player _player; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ã¼
 
-    // °ÔÀÓ ¿ÀºêÁ§Æ®°¡ »ý¼ºµÉ ¶§ È£ÃâµÇ´Â ¸Þ¼­µå
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     private void Awake()
     {
         if (_instance == null)
         {
-            // ÀÎ½ºÅÏ½º°¡ ¾øÀ¸¸é ÇöÀç °´Ã¼¸¦ ÀÎ½ºÅÏ½º·Î ¼³Á¤ÇÏ°í, ¾À ÀüÈ¯ ½Ã ÆÄ±«µÇÁö ¾Êµµ·Ï ¼³Á¤
+            // ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
@@ -37,7 +37,7 @@ public class CharacterManager : MonoBehaviour
         {
             if (_instance != this)
             {
-                // ÀÌ¹Ì ÀÎ½ºÅÏ½º°¡ Á¸ÀçÇÏ¸é ÇöÀç °´Ã¼¸¦ ÆÄ±«ÇÏ¿© Áßº¹ »ý¼º ¹æÁö
+                // ï¿½Ì¹ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½Ï¿ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 Destroy(gameObject);
             }
         }

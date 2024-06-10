@@ -25,11 +25,11 @@ public class PlayerController : MonoBehaviour
 
     public Action inventory;                // 인벤토리 액션
     public Action craft;
-    private Rigidbody rigidbody;            // 리지드바디
+    private Rigidbody _rigidbody;            // 리지드바디
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
         originalMoveSpeed = moveSpeed;      // 원래의 이동 속도 저장
     }
 
@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        bool grounded = IsGrounded();
+
         if (canLook)
         {
             CameraLook(); // 시선 제어 함수 호출
@@ -72,7 +74,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
-            rigidbody.AddForce(Vector2.up * jumptForce, ForceMode.Impulse); // 점프 힘 적용
+            _rigidbody.AddForce(Vector2.up * jumptForce, ForceMode.Impulse); // 점프 힘 적용
         }
     }
 
@@ -80,9 +82,9 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x; // 이동 방향 계산
         dir *= moveSpeed; // 이동 속도 적용
-        dir.y = rigidbody.velocity.y;
+        dir.y = _rigidbody.velocity.y;
 
-        rigidbody.velocity = dir; // 리지드바디에 속도 적용
+        _rigidbody.velocity = dir; // 리지드바디에 속도 적용
     }
 
     void CameraLook()
@@ -96,18 +98,20 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
+        float rayLength = 0.2f;
         // 플레이어 주변의 네 방향으로 레이캐스트를 쏴서 바닥에 닿았는지 검사
         Ray[] rays = new Ray[4]
         {
-            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.right * 0.2f) +(transform.up * 0.01f), Vector3.down)
+            new Ray(transform.position + (transform.forward * 0.1f) + (transform.up * -1f), Vector3.down),
+            new Ray(transform.position + (-transform.forward * 0.1f) + (transform.up * -1f), Vector3.down),
+            new Ray(transform.position + (transform.right * 0.1f) + (transform.up * -1f), Vector3.down),
+            new Ray(transform.position + (-transform.right * 0.1f) +(transform.up * -1f), Vector3.down)
         };
 
-        for (int i = 0; i < rays.Length; i++)
+        foreach (Ray ray in rays)
         {
-            if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
+
+            if (Physics.Raycast(ray, rayLength, groundLayerMask))
             {
                 return true;
             }

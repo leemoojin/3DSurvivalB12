@@ -40,6 +40,8 @@ public class Interaction : MonoBehaviour
             // 레이캐스트를 통해 상호 작용 대상을 체크
             if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
             {
+                //아이템 로그확인
+                Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
                 if (hit.collider.gameObject != curInteractGameObject)
                 {
                     // 현재 상호 작용 대상 업데이트

@@ -46,4 +46,5 @@ public class ItemData : ScriptableObject
 
     [Header("Equip")]
     public GameObject equipPrefabs; // 장비 아이템을 장착했을 때 생성되는 프리팹
+
 }

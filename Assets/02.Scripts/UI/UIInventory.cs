@@ -29,6 +29,8 @@ public class UIInventory : MonoBehaviour
     private PlayerController controller;         // 플레이어 컨트롤러
     private PlayerCondition condition;           // 플레이어 상태
 
+    
+
     void Start()
     {
         // 컨트롤러와 상태 참조 설정
@@ -184,6 +186,7 @@ public class UIInventory : MonoBehaviour
         equipButton.SetActive(selectedItem.item.type == ItemType.Equipable && !slots[index].equipped);
         unEquipButton.SetActive(selectedItem.item.type == ItemType.Equipable && slots[index].equipped);
         dropButton.SetActive(true);
+        
     }
 
     // 선택된 아이템 창 초기화 메서드
@@ -246,8 +249,40 @@ public class UIInventory : MonoBehaviour
 
         UpdateUI(); // UI 업데이트
     }
+    public void OnEquipButton()
+    {
+        Debug.Log("Selected Item Index: " + selectedItemIndex);
+        Debug.Log("Current Equip Index: " + curEquipIndex);
 
+        if (slots[curEquipIndex].equipped)
+        {
+            UnEquip(curEquipIndex);
+        }
+        Debug.Log("Selected Item for Equip: " + selectedItem.item);
+        slots[selectedItemIndex].equipped = true;
+        curEquipIndex = selectedItemIndex;
+        CharacterManager.Instance.Player.equip.EquipNew(selectedItem.item);
+        UpdateUI();
+
+        SelectItem(selectedItemIndex);
+
+    }
     // 아이템이 있는지 확인하는 메서드
+    void UnEquip(int index)
+    {
+        slots[index].equipped = false;
+        CharacterManager.Instance.Player.equip.UnEquip();
+        UpdateUI();
+
+        if (selectedItemIndex == index)
+        {
+            SelectItem(selectedItemIndex);
+        }
+    }
+    public void OnUnEquipButton()
+    {
+        UnEquip(selectedItemIndex);
+    }
     public bool HasItem(ItemData item, int quantity)
     {
         return false;

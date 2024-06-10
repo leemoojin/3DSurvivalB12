@@ -15,6 +15,7 @@ public class ItemObject : MonoBehaviour, IInteractable
     // 상호 작용 시 호출되는 메서드
     public void OnInteract()
     {
+        Debug.Log("Interacting with item: " + data.displayName);
         // 플레이어의 아이템 데이터를 설정하고, 아이템을 추가하는 이벤트 호출 후, 자기 자신을 파괴
         CharacterManager.Instance.Player.itemData = data;
         CharacterManager.Instance.Player.addItem?.Invoke();
