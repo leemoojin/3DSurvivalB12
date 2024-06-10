@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         // 플레이어와의 거리 - 추후 수정**
-        //toPlayerDistance = Vector3.Distance(transform.position, CharacterManager.Instance.Player.transform.position);
+        toPlayerDistance = Vector3.Distance(transform.position, CharacterManager.Instance.Player.transform.position);
 
     }
 

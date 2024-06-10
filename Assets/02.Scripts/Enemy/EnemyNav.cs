@@ -19,14 +19,17 @@ public class EnemyNav : MonoBehaviour
 
     public AIState aiState;
     private NavMeshAgent _agent;
-    private Enemy _enemyInfo;
+    private Enemy _enemy;
     private SateMark _sateMark;
+
+    private Coroutine _coroutine;
 
     private float _toPlayerDistance;
     private float _viewAngle;
     private float _viewRadius;
     private float _roamRadius;
     private float _walkSpeed;
+    private float _attackDistance;
     private bool _isDayTimeMode;
     private bool _isInvadeArrive;
 
@@ -34,14 +37,16 @@ public class EnemyNav : MonoBehaviour
 
     //public GameObject curInteractGameObject;
     // 하나로 합쳐서 구현하도록 수정**
-    public RaycastHit curHit;
-    public ViewCastInfo curViewCastInfo; 
+    //public RaycastHit curHit;
+    public ViewCastInfo curViewCastInfo;
+    // 추적 대상 여부
+    public bool isChase = false;
 
 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _enemyInfo = GetComponent<Enemy>();
+        _enemy = GetComponent<Enemy>();
         _sateMark = GetComponent<SateMark>();
     }
 
@@ -52,11 +57,13 @@ public class EnemyNav : MonoBehaviour
         //_roamRadius = EnemyManager.Instance.enemyInfo.roamRadius;
         //_walkSpeed = EnemyManager.Instance.enemyInfo.walkSpeed;
 
-        _startPosition = _enemyInfo.startPosition;
-        _roamRadius = _enemyInfo.roamRadius;
-        _walkSpeed = _enemyInfo.walkSpeed;
-        _isInvadeArrive = _enemyInfo.isInvadeArrive;
-        _viewRadius = _enemyInfo.viewRadius;
+        _startPosition = _enemy.startPosition;
+        _roamRadius = _enemy.roamRadius;
+        _walkSpeed = _enemy.walkSpeed;
+        _isInvadeArrive = _enemy.isInvadeArrive;
+        _viewRadius = _enemy.viewRadius;
+        _viewAngle = _enemy.viewAngle;
+        _attackDistance = _enemy.attackDistance;
 
         aiState = AIState.Wandering;
         //SetState(_aiState);
@@ -66,12 +73,12 @@ public class EnemyNav : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        //_toPlayerDistance = EnemyManager.Instance.enemyInfo.toPlayerDistance;
+    {        
         //_isDayTimeMode = EnemyManager.Instance.enemyInfo.isDayTimeMode;
 
-        _toPlayerDistance = _enemyInfo.toPlayerDistance;
-        _isDayTimeMode = _enemyInfo.isDayTimeMode;
+        _toPlayerDistance = _enemy.toPlayerDistance;
+        _isDayTimeMode = _enemy.isDayTimeMode;
+        //Tension();
 
         // 낮, 밤에 따른 몬스터들의 상태변화 임시 코드 - 추후 수정**
         if (!_isDayTimeMode && !_isInvadeArrive)
@@ -89,7 +96,9 @@ public class EnemyNav : MonoBehaviour
         switch (state)
         {
             case AIState.Idle:
-                //PassiveUpdate();
+                Debug.Log("EnemyNav.cs -SetState() - 대기");
+                _agent.isStopped = true;     
+                aiState = AIState.Wandering;
                 break;
             case AIState.Wandering:
                 _agent.speed = _walkSpeed;
@@ -99,10 +108,9 @@ public class EnemyNav : MonoBehaviour
             case AIState.Chasing:
                 _agent.speed = _walkSpeed;
                 _agent.isStopped = false;
-                ChasingUpdate();
-                //AttackingUpdate();
+                ChasingUpdate();                
                 break;
-            case AIState.Attacking:
+            case AIState.Attacking:                
                 _agent.isStopped = true;
                 AttackingUpdate();
                 break;
@@ -123,7 +131,26 @@ public class EnemyNav : MonoBehaviour
 
     private void AttackingUpdate()
     {
-        Debug.Log("공격 시작");
+        // 공격 범위 안에 있으면 공격
+        Debug.Log("EnemyNav.cs - AttackingUpdate()");
+
+        float toEnemy = Vector3.Distance(transform.position, curViewCastInfo.hit.collider.gameObject.transform.position);
+
+        // 공격범위를 벗어나면 추적
+        if (_attackDistance < toEnemy)
+        {
+            Debug.Log("EnemyNav.cs - AttackingUpdate() - 공격 벗어남 다시 추적");
+            aiState = AIState.Chasing;
+            return;
+        }
+
+        // 목표물을 놓쳤을때
+        if (IsLostEnemy())
+        {
+            return;
+        }
+
+
     }
 
     private void WanderingUpdate()
@@ -154,37 +181,72 @@ public class EnemyNav : MonoBehaviour
             }
 
             aiState = AIState.Wandering;
-
-        }
-
-        
+        }        
     }
 
     private void ChasingUpdate()
     {
-        if (_agent.remainingDistance < 0.1f)
+        int player = LayerMask.NameToLayer("Player"); ;
+
+        //Debug.Log($"EnemyNav.cs - ChasingUpdate()");
+        //Debug.Log($"EnemyNav.cs - ChasingUpdate() - {curViewCastInfo.hit.collider.gameObject.transform.position}");
+
+        // 플레이어 쫓을때
+        if (curViewCastInfo.hit.collider.gameObject.layer == player)
         {
-            Debug.Log($"EnemyNav.cs - ChasingUpdate()");
+            Debug.Log($"EnemyNav.cs - ChasingUpdate() - 플레이어 추적");
+            //Debug.Log($"EnemyNav.cs - ChasingUpdate() - _viewRadius: {_viewRadius}, _toPlayerDistance: {_toPlayerDistance}");
+
 
             _sateMark.ShowExclamationMark();
-            _agent.SetDestination(curHit.point);
-
         }
 
-        FindEnemy();
+        // 목표물로 접근
+        _agent.SetDestination(curViewCastInfo.hit.collider.gameObject.transform.position);
+
+
+        if (IsLostEnemy())
+        {
+            return;
+        }
+
+        CatchEnemy();
     }
 
-    private void FindEnemy()
+    private void CatchEnemy()
     {
-        float toEnemy = Vector3.Distance(transform.position, curHit.point);
-        Debug.Log(IsFind(curHit.collider.gameObject.transform.position));
+        //Debug.Log($"EnemyNav.cs - CatchEnemy()");     
 
-        if (_viewRadius > toEnemy && IsFind(curHit.collider.gameObject.transform.position))
+        float toEnemy = Vector3.Distance(transform.position, curViewCastInfo.hit.collider.gameObject.transform.position);
+        //Debug.Log($"EnemyNav.cs - FindEnemy() - {curViewCastInfo.point}");
+
+        //Debug.Log($"EnemyNav.cs - CatchEnemy() - _attackDistance: {_attackDistance}, toEnemy: {toEnemy}, IsFind: {IsFind(curViewCastInfo.hit.collider.gameObject.transform.position)}");
+
+        if (_attackDistance >= toEnemy && IsFind(curViewCastInfo.hit.collider.gameObject.transform.position))
         {
-            Debug.Log($"EnemyNav.cs - FindEnemy() - 공격 범위 안");
+            Debug.Log($"EnemyNav.cs - CatchEnemy() - 공격 범위 안");
 
             aiState = AIState.Attacking;
         }
+    }
+
+    private bool IsLostEnemy() 
+    {
+        int player = LayerMask.NameToLayer("Player"); ;
+
+        // 목표물을 놓쳤을 때
+        if (_viewRadius < _toPlayerDistance && curViewCastInfo.hit.collider.gameObject.layer == player)
+        {
+            Debug.Log($"EnemyNav.cs - ChasingUpdate() - 플레이어 놓침");
+            //Debug.Log($"EnemyNav.cs - ChasingUpdate() - _viewRadius: {_viewRadius}, _toPlayerDistance: {_toPlayerDistance}");
+
+            _coroutine = StartCoroutine(_sateMark.ShowQuestionMark());            
+            aiState = AIState.Idle;
+            isChase = false;
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -212,7 +274,7 @@ public class EnemyNav : MonoBehaviour
 
         _agent.areaMask = combinedMask;
         //_agent.SetDestination(EnemyManager.Instance.enemyInfo.Target.position);
-        _agent.SetDestination(_enemyInfo.Target.position);
+        _agent.SetDestination(_enemy.Target.position);
 
             
     }
@@ -239,14 +301,26 @@ public class EnemyNav : MonoBehaviour
     }
 
     
-    bool IsFind(Vector3 enemy)
+    private bool IsFind(Vector3 enemy)
     {        
-        Vector3 directionToEnemy = enemy - transform.position;        
-        float angle = Vector3.Angle(transform.forward, directionToEnemy);        
+        Vector3 directionToEnemy = enemy - transform.forward;        
+        float angle = Vector3.Angle(transform.position, directionToEnemy);        
         return angle < _viewAngle * 0.5f;
     }
 
 
+    //private void Tension()
+    //{
+    //    Debug.Log($"EnemyNav.cs - Tension() - {_toPlayerDistance} < {_viewRadius} , {IsFind(CharacterManager.Instance.Player.transform.position)}");
 
+
+    //    if (_toPlayerDistance < _viewRadius && !IsFind(CharacterManager.Instance.Player.transform.position))
+    //    {
+    //        Debug.Log($"EnemyNav.cs - Tension() - 근처에 플레이어 있음");
+
+    //        _coroutine = StartCoroutine(_sateMark.ShowQuestionMark());
+
+    //    }
+    //}
 
 }

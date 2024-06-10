@@ -205,7 +205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3871586782411849186
 Transform:
   m_ObjectHideFlags: 0
@@ -338,8 +338,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\uC950"
   health: 6
-  walkSpeed: 3
-  runSpeed: 4
+  walkSpeed: 1.5
+  runSpeed: 2
   viewRadius: 5
   viewAngle: 120
   toPlayerDistance: 0
@@ -350,9 +350,9 @@ MonoBehaviour:
   minWanderDistance: 0
   maxWanderDistance: 0
   meshResolution: 1
-  damage: 0
+  damage: 1
   attackRate: 0
-  attackDistance: 0
+  attackDistance: 2.2
   lastAttackTime: 0
   Target: {fileID: 0}
   isInvadeArrive: 0
@@ -369,6 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aiState: 0
+  isChase: 0
 --- !u!195 &4961347609805471073
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -405,7 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 576
   viewMeshFilter: {fileID: 6749484233851229675}
   meshResolution: 1
 --- !u!114 &6873785477066170112
@@ -420,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e4c46e89394489429a885c0069efcf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SateMarkGameObject: {fileID: 4339487777410346833}
+  SateMarkGameObject: {fileID: 0}
   materials:
   - {fileID: 2100000, guid: ebe9bcb8a706c8d45ac61537e09e4c2a, type: 2}
   - {fileID: 2100000, guid: d81c9c81ca2075245a45e0970c97fe8a, type: 2}

@@ -44,8 +44,8 @@ public class Interaction : MonoBehaviour
                 {
                     // 현재 상호 작용 대상 업데이트
                     curInteractGameObject = hit.collider.gameObject;
-                    curInteractable = hit.collider.GetComponent<IInteractable>();
-                    SetPromptText(); // 프롬프트 텍스트 설정
+                    curInteractable = hit.collider.GetComponent<IInteractable>();                    
+                    //SetPromptText(); // 프롬프트 텍스트 설정 - 임시 주석처리**
                 }
             }
             else

@@ -25,15 +25,32 @@ public class SateMark : MonoBehaviour
 
     public void ShowExclamationMark()
     {
-        SateMarkGameObject.SetActive(true);
+        CloseStateMark();
         SwitchMaterial(1);
+
+        SateMarkGameObject.SetActive(true);
     }
 
-    public void ShowQuestionMark()
+    //public void ShowQuestionMark()
+    //{
+    //    CloseStateMark();
+
+    //    SwitchMaterial(0);
+    //    SateMarkGameObject.SetActive(true);
+
+
+    //}
+
+    public IEnumerator ShowQuestionMark()
     {
-        SateMarkGameObject.SetActive(true);
+        CloseStateMark();
         SwitchMaterial(0);
 
+        SateMarkGameObject.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+
+        CloseStateMark();
     }
 
     public void CloseStateMark()
