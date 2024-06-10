@@ -4411,19 +4411,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1509598780}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CraftManual, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1509598780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6700,6 +6688,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a78b7f9b4016c3409fc2625610ae858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  go_BaseUI: {fileID: 32396402}
+  craft_fire:
+  - craftName: fire
+    go_prefab: {fileID: 1540724737074142003, guid: 8800ec8b55fc95c44b0f59a60709f08d, type: 3}
+    go_PreviewPrefab: {fileID: 1540724737074142003, guid: 8800ec8b55fc95c44b0f59a60709f08d, type: 3}
+  tf_Player: {fileID: 1942500952}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  range: 10
 --- !u!224 &1979225495 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 437191771320879733, guid: b7c902993bafb60449aec0c3bcafbffc, type: 3}
