@@ -99,8 +99,26 @@ public class PoolManager : SingletonDestroyable<PoolManager>
             _clonePoolDict.Add(go, pool); // Clone-Stack 캐싱
         }
 
+        var random = new System.Random();
+        var zone = random.Next(0, 2);
+        int xPos;
+        int zPos;
+        
+        if (zone == 0)
+        {
+            xPos = random.Next(-75, -15);
+            zPos = random.Next(-15, 45);
+        }
+        else
+        {
+            xPos = random.Next(-45, 15);
+            zPos = random.Next(15, 75);
+        }
+        
+        var randomPos = new Vector3(xPos, 0.0f, zPos);
+        go.transform.position = randomPos;
         go.SetActive(true);
-        go.transform.SetParent(transform);
+        // go.transform.SetParent(null);
 
         return go;
     }
