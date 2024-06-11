@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6572,7 +6572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1770561857
 Light:
   m_ObjectHideFlags: 0
@@ -6875,6 +6875,10 @@ PrefabInstance:
     - target: {fileID: 5179352664023394627, guid: c816c8fdebd2f3d4da08258b987a7559, type: 3}
       propertyPath: m_Name
       value: DayAndNight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179352664023394627, guid: c816c8fdebd2f3d4da08258b987a7559, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6527195213701948794, guid: c816c8fdebd2f3d4da08258b987a7559, type: 3}
       propertyPath: m_LocalPosition.x
