@@ -38,6 +38,18 @@ public class CampFire : MonoBehaviour
         {
             playerController.SetSpeed(playerController.moveSpeed * slowDownFactor);
         }
+
+        if (other.gameObject.TryGetComponent(out EnemyNav enemy))
+        {
+            Debug.Log("슬로우");
+            enemy.agent.speed = 0.2f;
+
+        }
+        else
+        {
+            Debug.Log("슬로우 안함");
+
+        }
     }
 
     // Collider가 CampFire에서 나갈 때 호출되는 함수
@@ -53,6 +65,15 @@ public class CampFire : MonoBehaviour
         if (other.gameObject.TryGetComponent(out PlayerController playerController))
         {
             playerController.ResetSpeed();
+        }
+
+        if (other.gameObject.TryGetComponent(out EnemyNav enemy))
+        {
+            Debug.Log("슬로우 해제");
+
+            if (enemy.aiState == AIState.Chasing) enemy.agent.speed = 1.5f;
+            else enemy.agent.speed = 0.5f;
+
         }
     }
 }

@@ -18,7 +18,7 @@ public class EnemyNav : MonoBehaviour
 {
 
     public AIState aiState;
-    private NavMeshAgent _agent;
+    public NavMeshAgent agent;
     private Enemy _enemy;
     private SateMark _sateMark;
     private EnemyAnimation _animationManager;
@@ -29,7 +29,9 @@ public class EnemyNav : MonoBehaviour
     private float _viewAngle;
     private float _viewRadius;
     private float _roamRadius;
+    private float _runSpeed;
     private float _walkSpeed;
+
     private float _attackDistance;
     private bool _isDayTimeMode;
     private bool _isInvadeArrive;
@@ -47,7 +49,7 @@ public class EnemyNav : MonoBehaviour
 
     private void Awake()
     {
-        _agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         _enemy = GetComponent<Enemy>();
         _sateMark = GetComponent<SateMark>();
         _animationManager = GetComponent<EnemyAnimation>();
@@ -65,6 +67,7 @@ public class EnemyNav : MonoBehaviour
         _startPosition = _enemy.startPosition;
         _roamRadius = _enemy.roamRadius;
         _walkSpeed = _enemy.walkSpeed;
+        _runSpeed = _enemy.runSpeed;
         _isInvadeArrive = _enemy.isInvadeArrive;
         _viewRadius = _enemy.viewRadius;
         _viewAngle = _enemy.viewAngle;
@@ -82,8 +85,8 @@ public class EnemyNav : MonoBehaviour
         //_isDayTimeMode = EnemyManager.Instance.enemyInfo.isDayTimeMode;
 
         _toPlayerDistance = _enemy.toPlayerDistance;
-        _isDayTimeMode = _enemy.isDayTimeMode;
-        //Tension();
+        _isDayTimeMode = _enemy.isDayTimeMode;        
+
 
         // 낮, 밤에 따른 몬스터들의 상태변화 임시 코드 - 추후 수정**
         if (!_isDayTimeMode && !_isInvadeArrive)
@@ -105,21 +108,21 @@ public class EnemyNav : MonoBehaviour
         {
             case AIState.Idle:
                 Debug.Log("EnemyNav.cs -SetState() - 대기");
-                _agent.isStopped = true;     
+                agent.isStopped = true;     
                 aiState = AIState.Wandering;
                 break;
             case AIState.Wandering:
-                _agent.speed = _walkSpeed;
-                _agent.isStopped = false;
+                agent.speed = _walkSpeed;
+                agent.isStopped = false;
                 WanderingUpdate();
                 break;
             case AIState.Chasing:
-                _agent.speed = _walkSpeed;
-                _agent.isStopped = false;
+                agent.speed = _runSpeed;
+                agent.isStopped = false;
                 ChasingUpdate();                
                 break;
             case AIState.Attacking:                
-                _agent.isStopped = true;
+                agent.isStopped = true;
                 AttackingUpdate();
                 break;
             case AIState.Revenge:
@@ -129,8 +132,9 @@ public class EnemyNav : MonoBehaviour
                 //FleeingUpdate();
                 break;
             case AIState.Invade:
+                agent.speed = _runSpeed;
                 InvadeUpdate();
-                _agent.isStopped = false;
+                agent.isStopped = false;
                 break;
         }
 
@@ -141,6 +145,8 @@ public class EnemyNav : MonoBehaviour
     {
         // 공격 범위 안에 있으면 공격
         Debug.Log("EnemyNav.cs - AttackingUpdate()");
+        
+
         Transform target = curViewCastInfo.hit.collider.gameObject.transform;
         float toEnemy = Vector3.Distance(transform.position, target.position);
 
@@ -152,6 +158,16 @@ public class EnemyNav : MonoBehaviour
             // 목표 회전 계산
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 2f * Time.deltaTime);
+        }
+
+        if (curViewCastInfo.hit.collider.gameObject.layer == 9)
+        {
+            if (curViewCastInfo.hit.collider.gameObject.GetComponent<WallCraftItem>().health == 0)
+            {
+                aiState = AIState.Idle;
+                isChase = false;
+                return;
+            }
         }
         
         // 공격범위를 벗어나면 추적
@@ -178,24 +194,24 @@ public class EnemyNav : MonoBehaviour
 
         if (_isDayTimeMode)
         {
-            if (_agent.remainingDistance < 0.1f)
+            if (agent.remainingDistance < 0.1f)
             {
                 //_agent.SetDestination(GetRandomPoint(_startPosition, _roamRadius));
 
                 Vector3 newPos = GetRandomPoint(_startPosition, _roamRadius);
-                _agent.SetDestination(newPos);
+                agent.SetDestination(newPos);
             }
 
             aiState = AIState.Wandering;
         }
         else 
         {
-            if (_agent.remainingDistance < 0.1f)
+            if (agent.remainingDistance < 0.1f)
             {
                 //_agent.SetDestination(GetRandomPoint(_startPosition, _roamRadius));
 
                 Vector3 newPos = GetRandomPoint(transform.position, _viewRadius);
-                _agent.SetDestination(newPos);
+                agent.SetDestination(newPos);
             }
 
             aiState = AIState.Wandering;
@@ -205,9 +221,11 @@ public class EnemyNav : MonoBehaviour
     private void ChasingUpdate()
     {
         int player = LayerMask.NameToLayer("Player"); ;
+        int craft = LayerMask.NameToLayer("Craft"); ;
+
 
         //Debug.Log($"EnemyNav.cs - ChasingUpdate()");
-        //Debug.Log($"EnemyNav.cs - ChasingUpdate() - {curViewCastInfo.hit.collider.gameObject.transform.position}");
+        //Debug.Log($"EnemyNav.cs - ChasingUpdate() - layer: {curViewCastInfo.hit.collider.gameObject.layer}");
 
         // 플레이어 쫓을때
         if (curViewCastInfo.hit.collider.gameObject.layer == player)
@@ -219,8 +237,15 @@ public class EnemyNav : MonoBehaviour
             _sateMark.ShowExclamationMark();
         }
 
+        // 장애물 쫓을때
+        if (curViewCastInfo.hit.collider.gameObject.layer == craft)
+        {
+            Debug.Log($"EnemyNav.cs - ChasingUpdate() - 장애물 추적");
+            
+        }
+
         // 목표물로 접근
-        _agent.SetDestination(curViewCastInfo.hit.collider.gameObject.transform.position);
+        agent.SetDestination(curViewCastInfo.hit.collider.gameObject.transform.position);
 
 
         if (IsLostEnemy())
@@ -249,7 +274,7 @@ public class EnemyNav : MonoBehaviour
     }
 
     private bool IsLostEnemy() 
-    {
+    {   
         int player = LayerMask.NameToLayer("Player"); ;
 
         // 목표물을 놓쳤을 때
@@ -271,14 +296,15 @@ public class EnemyNav : MonoBehaviour
     private void InvadeUpdate()
     {
         Debug.Log($"EnemyNav.cs - InvadeUpdate()");
+        isChase = false;
+        _isInvadeArrive = true;
 
 
-        if (_agent.remainingDistance < 0.1f)
+        if (agent.remainingDistance < 0.1f)
         {
             Debug.Log($"EnemyNav.cs - InvadeUpdate() - 도착");
 
             aiState = AIState.Wandering;
-            _isInvadeArrive = true;
             Debug.Log($"EnemyNav.cs - InvadeUpdate() - _aiState: {aiState}");
 
             return;
@@ -290,9 +316,9 @@ public class EnemyNav : MonoBehaviour
 
         int combinedMask = waveZoneArea | farmingZoneArea | safeZoneArea;
 
-        _agent.areaMask = combinedMask;
+        agent.areaMask = combinedMask;
         //_agent.SetDestination(EnemyManager.Instance.enemyInfo.Target.position);
-        _agent.SetDestination(_enemy.Target.position);
+        agent.SetDestination(_enemy.Target.position);
 
             
     }

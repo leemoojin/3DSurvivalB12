@@ -69,21 +69,17 @@ public class EnemyView : MonoBehaviour
         //_isDayTime = EnemyManager.Instance.enemyInfo.isDayTimeMode;
         _isDayTime = _enemyInfo.isDayTimeMode;
 
+        DrawFieldOfView();
 
         // 낮에만 범위 표시
-        if (_isDayTime)
-        {
-            DrawFieldOfView();
-        }
-        else 
+        if (!_isDayTime)
         {
             _viewMesh.Clear();
-        }
 
-
+        }        
     }
 
-    void DrawFieldOfView()
+    private void DrawFieldOfView()
     {       
         int stepCount = Mathf.RoundToInt(_viewAngle * meshResolution);
         float stepAngleSize = _viewAngle / stepCount;
@@ -102,9 +98,10 @@ public class EnemyView : MonoBehaviour
                 //viewPoints.Add(new Vector3(newViewCast.point.x, transform.position.y, newViewCast.point.z));
                 viewPoints.Add(newViewCast.point);
             }
-
         }
-        
+
+        if (!_isDayTime) return;        
+
         int vertexCount = viewPoints.Count + 1;        
         Vector3[] vertices = new Vector3[vertexCount];        
         int[] triangles = new int[(vertexCount - 2) * 3];        
@@ -137,7 +134,7 @@ public class EnemyView : MonoBehaviour
 
         int craft = LayerMask.NameToLayer("Craft");
         int player = LayerMask.NameToLayer("Player"); ;
-               
+
 
         // 상호 작용할 매게변수를 레이어로 추가한뒤 해당 레이어의 정보를 ViewCastInfo로 전달할 수 있다
         if (Physics.Raycast(transform.position, dir, out hit, _viewRadius, obstacleMask))
@@ -155,18 +152,20 @@ public class EnemyView : MonoBehaviour
                 //_enemyNav.curHit = hit;
                 _enemyNav.aiState = AIState.Chasing;
                 _enemyNav.isChase = true;
-                
+
             }
             // 플레이어 감지 - 레이어 설정 후 추가할것**
             if (player == hit.collider.gameObject.layer && !_enemyNav.isChase)
-            { 
+            {
                 Debug.Log("EnemyNav.cs - ViewCast() - 플레이어 발견");
                 _enemyNav.aiState = AIState.Chasing;
                 _enemyNav.isChase = true;
-               
             }
         }
-       
+        
+
+        //_enemyNav.isChase = false;
+
         return new ViewCastInfo(false, transform.position + dir, _viewRadius, globalAngle, hit);
 
     }

@@ -52,7 +52,7 @@ public class EnemyAnimation : MonoBehaviour
 
     public void ChasingAnime()
     {
-        if (_enemyNav.aiState == AIState.Chasing)
+        if (_enemyNav.aiState == AIState.Chasing || _enemyNav.aiState == AIState.Invade)
         {
             _animator.SetBool("IsMoving", false);
             _animator.SetBool("IsChasing", true);

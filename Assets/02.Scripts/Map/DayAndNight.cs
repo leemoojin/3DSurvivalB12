@@ -23,7 +23,7 @@ public class DayAndNight : MonoBehaviour
     public AnimationCurve LightingIntensityMultiplier;
     public AnimationCurve ReflectIntensityMultiplier;
 
-    public bool IsDay;
+    static public bool IsDay;
     
     private void Start()
     {

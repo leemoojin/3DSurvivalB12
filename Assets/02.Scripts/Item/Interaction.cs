@@ -53,7 +53,7 @@ public class Interaction : MonoBehaviour
                 // 상호 작용 대상이 없으면 초기화
                 curInteractGameObject = null;
                 curInteractable = null;
-                promptText.gameObject.SetActive(false); // 프롬프트 텍스트 비활성화
+                //promptText.gameObject.SetActive(false); // 프롬프트 텍스트 비활성화
             }
         }
     }

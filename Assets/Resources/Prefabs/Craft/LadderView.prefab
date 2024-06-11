@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6087955873633823154}
   - component: {fileID: 1818675895299244679}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: LadderView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 2185455254502432376}
   - component: {fileID: 3011611629826552960}
   - component: {fileID: 650975057338201626}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
